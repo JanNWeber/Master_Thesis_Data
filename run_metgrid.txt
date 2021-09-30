@@ -13,13 +13,12 @@ module add app/cost733class/1.2_RC_revision89-openmp-intel-18.1
 export GRIB_DEFINITION_PATH="/app/cost733class-1.2/intel-18.1/share/grib_api/definitions/"
 source /etc/profile.d/00-modules.sh
 
-#module load io/netcdf/4.4.1-intel-15.0.4-mpich-3.1.4
-#module load mpi/mpich/3.1.4-intel-15.0.4  
+#module load mpi/mpich/3.1.4-intel-15.0.4
 #module load io/netcdf/4.4.1-intel-15.0.4-mpich-3.1.4 
 
 ulimit -s unlimited
-set ulimit -s 
+set ulimit -s
 
 cd /pd/home/weber-j/
 
-/app/cost733class-1.2/intel-18.1/bin/cost733class -dat pth:/pd/home/weber-j/em_test_02.txt fmt:ascii fdt:1981:01:01 ldt:1981:08:03 ddt:1d lon:290.25:343.25:0.25 lat:-33:20:0.25 cnt:/pd/home/weber-j/em_cnt_test_02.nc -met SAN -ncl 11 -cla /pd/home/weber-j/em_cla_test_02.dat -v 5
+/app/cost733class-1.2/intel-18.1/bin/cost733class -dat var:v pth:/pd/home/weber-j/v750_all.grib fmt:grib fdt:1979:01:01 ldt:2020:12:31 ddt:1d slo:30:51.75:0.25 sla:-10.5:14.25:0.25 sle:750 cnt:/pd/home/weber-j/em_cnt_v94.nc -per 1981:03:01:12,2018:05:31:12,1d -mon 3,4,5 -met SAN -ncl 10 -cla /pd/home/weber-j/em_cla_v94.dat -v 3
