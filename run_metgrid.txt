@@ -1,0 +1,25 @@
+#!/bin/bash -x
+#SBATCH --partition=ccgp
+#SBATCH --nodes=1
+#SBATCH --ntasks 80
+#SBATCH --output=job-out.%j
+#SBATCH --error=job-err.%j
+#SBATCH --job-name=class
+#SBATCH --time=8:00:00
+#SBATCH --mail-user=jan.weber9@kit.edu
+#SBATCH --mail-type=ALL
+
+module add app/cost733class/1.2_RC_revision89-openmp-intel-18.1
+export GRIB_DEFINITION_PATH="/app/cost733class-1.2/intel-18.1/share/grib_api/definitions/"
+source /etc/profile.d/00-modules.sh
+
+#module load io/netcdf/4.4.1-intel-15.0.4-mpich-3.1.4
+#module load mpi/mpich/3.1.4-intel-15.0.4  
+#module load io/netcdf/4.4.1-intel-15.0.4-mpich-3.1.4 
+
+ulimit -s unlimited
+set ulimit -s 
+
+cd /pd/home/weber-j/
+
+/app/cost733class-1.2/intel-18.1/bin/cost733class -dat pth:/pd/home/weber-j/em_test_02.txt fmt:ascii fdt:1981:01:01 ldt:1981:08:03 ddt:1d lon:290.25:343.25:0.25 lat:-33:20:0.25 cnt:/pd/home/weber-j/em_cnt_test_02.nc -met SAN -ncl 11 -cla /pd/home/weber-j/em_cla_test_02.dat -v 5
