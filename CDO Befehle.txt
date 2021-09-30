@@ -1,0 +1,47 @@
+CDO benutzten zum zurechtschneiden:
+info: https://code.mpimet.mpg.de/projects/cdo/embedded/cdo_refcard.pdf
+
+CDO 1.9.5 verwenden, sonst funktioniert es nicht!!!
+module load app/cdo/1.9.5 
+
+Bei Files mit mehreren Variablen zuerst die korrekte Variable auswählen:
+cdo selname,v /pd/data/regclim_data/gridded_data/reanalyses/era5/daily/ERA5_daily_1979.nc /pd/home/weber-j/Zwischendateien/1.nc
+cdo selname,v /pd/data/regclim_data/gridded_data/reanalyses/era5/daily/ERA5_daily_1980.nc /pd/home/weber-j/Zwischendateien/2.nc
+.
+.
+.
+
+Bei Variablen auf anderen Druckniveaus muss das Level angegeben werden:
+cdo sellevel,75000 /pd/home/weber-j/Zwischendateien/1.nc /pd/home/weber-j/Zwischendateien/1a.nc
+cdo sellevel,75000 /pd/home/weber-j/Zwischendateien/2.nc /pd/home/weber-j/Zwischendateien/2a.nc
+.
+.
+.
+
+Dann die einzelnen Dateien verschiedener Zeiten in einer Datei zusammenführen:
+cdo mergetime /pd/home/weber-j/Zwischendateien/1a.nc /pd/home/weber-j/Zwischendateien/2a.nc ... /pd/home/weber-j/Grunddaten_v750.nc)
+
+
+Zurechtschneiden des Gebietes:
+cdo -sellonlatbox,30,60,14.25,-10.5 /pd/home/weber-j/Grunddaten_v750.nc /pd/home/weber-j/v750_all.nc
+
+Erschaffen der für COST benötigte grib-Datei:
+cdo -f grb1 -sellonlatbox,30,60,14.25,-10.5 /pd/home/weber-j/Grunddaten_v750.nc /pd/home/weber-j/v750_all.grib
+
+
+
+Weitere Informationen zu run_metgrid:
+
+Mehrere Quellen zum Clustern: zwei -dat-Pfade angeben
+
+-met SAN   #Methode Sandra        (KMN = k-means)
+-ncl       #Anzahl Cluster
+-dat Eingangspfad
+cnt: Ausgangspfad Clustercentroide
+Cla Ausgangspfad clusterkatalog
+Fdt: first date time 
+ldt: last date time
+-per 1982:03:01:12,2018:05:31:12,1d     (Startdatum, Enddatum, Intervall)   Startdatum/Enddatum ein Jahr nach/vor fdt/ldt wählen
+-mon 3,4,5                              (ausgewählte Monate)
+
+Explained Cluster Variance steht im Job-Out ganz unten
